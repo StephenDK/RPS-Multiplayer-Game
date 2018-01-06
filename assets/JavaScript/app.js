@@ -50,12 +50,24 @@ $("#start").click(function() {
 		userName = capitalize($("#userName").val());
 		// Tests and Debugging
 		console.log(userName);
-		// Call user in game function
+		// Call get in game function
 		// getInGame();
 	}
 });
 
+// Listener for "enter" in user input
+$("#userName").keypress(function(e) {
+	if (e.keyCode === 13 && $("#userName").val() !== "") {
+		userName = capitalize($("#userName").val());
+		// Tests and Debugging
+		console.log(userName);
+		// Call get in game function
+		// getInGame();
+	}
+});
 
+// Function to capitalize usernames
+// select char at 0 and cut the rest of the username out
 function capitalize(name) {
 	return name.charAt(0).toUpperCase() + name.slice(1);
 }
