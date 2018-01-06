@@ -56,6 +56,10 @@ $("#start").click(function() {
 });
 
 
+function capitalize(name) {
+	return name.charAt(0).toUpperCase() + name.slice(1);
+}
+
 // 
 // Section 3: 
 // Main Process
