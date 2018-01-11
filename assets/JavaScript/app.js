@@ -67,10 +67,56 @@ $("#userName").keypress(function(e) {
 });
 
 // Function to capitalize usernames
-// select char at 0 and cut the rest of the username out
+// select char at 0 and cut the rest of the username out with slice
 function capitalize(name) {
 	return name.charAt(0).toUpperCase() + name.slice(1);
 }
+
+// CHAT LISTENER
+// Chat send button, grabs input and pushes to firebase
+$("#chat-Send").click(function(){
+	if ($("#user-Message").val() !== ""){
+
+	// set variable to user message
+	var message = $("#user-Message").val();
+
+	// tests and debugging
+	console.log(message);
+
+	// Push chat message to firebase
+	// Put message in JSON format
+	chatData.push({
+		name:userName,
+		message: message,
+		time: firebase.database.ServerValue.TIMESTAMP,
+		idNum: playerNum
+	});
+	// clear chat-data input 
+	$("#user-Message").val("");
+	}
+});
+
+// Chat-box input listener
+$("#user-Message").keypress(function(e){
+
+	if (e.keyCode === 13 && $("#user-Message").val() !== "") {
+
+		var message = $("#user-Message").val();
+
+		console.log(message);
+
+		chatData.push({
+			name: userName,
+			message: message,
+			time: firebase.database.ServerValue.TIMESTAMP,
+			idNum: PlayerNum
+		});
+		$("#user-Message").val("");
+	}
+});
+
+// Click event for dynamically added <li> elements
+
 
 // 
 // Section 3: 
