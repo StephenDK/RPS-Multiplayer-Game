@@ -116,8 +116,47 @@ $("#user-Message").keypress(function(e){
 });
 
 // Click event for dynamically added <li> elements
+$(document).on("click", "li", function() {
 
+	console.log("click");
 
+	// Grabs text from li choice
+	var clickChoice = $(this).text();
+	console.log(playerRef);
+
+	// sets the choice in the current player object in firebase
+	playersRef.child("choice").set(clickChoice);
+
+	// After user picks remove choices and display user choice
+	$("#player" + playerNum + " ul").empty();
+	$("#player" + playerNum + "chosen").text(clickChoice);
+
+	// incrementaing turns. It goes:
+	// 1 - player 1
+	// 2 - player 2
+	// 3 - determine winner
+	
+	// Update firebase current vale for turn based on the current turn 
+	currentTurnRef.transaction(function(turn) {
+		return turn + 1;
+	});
+});
+
+// Update chat on screen when new message is detected - ordered by 'time' value
+chatData.orderByChild("time").on("child_added", function(snapshot){
+
+// If idNum is 0, then display a disconnect message 
+	if (snapshot.val().idNum === 0) {
+		$("#chat-messages").append("<p class=player" + snapshot.val().idNum + "><span>"
+			+ snapshot.val().name + "</span>: " + snapshot.val().message + "</p>"); 
+	} else {
+		$("#chat-messages").append("<p class=player" + snapshot.val().idNum + "><span>"
+			+ snapshot.val().name + "</span>: " + snapshot.val().message + "</p>");
+	}
+
+	// Keep the chat div scrolled to the bottom on each update
+	$("#chat-messages").scrollTop($("#chat-messages")[0].scrollHeight);
+});
 // 
 // Section 3: 
 // Main Process
